@@ -29,7 +29,7 @@ create_project() {
     #if [ "$(echo "$create_project_response" | jq -r .id)" ]; then
     #    echo "$project_name projesi baarÄ±yla olturuldu."
     #else
-    #    echo "Hata! Proje olxxxx±z: $(echo "$create_project_response" | jq -r .error)"
+    #    echo "Hata! Proje olxxxxï¿½z: $(echo "$create_project_response" | jq -r .error)"
     #    return 1
     #fi
 }
@@ -62,13 +62,13 @@ do
         projectName=$(awk -F'/' '{print $2}' <<< "$newImage") 
         projectName=${projectName%%:*}
 	if contains "$projectName" "${my_array[@]}"; then
-	  echo docker tag $sourceImage $newImage
-          echo docker push $newImage
+	  docker tag $sourceImage $newImage
+          docker push $newImage
 	else
 	  echo "'$projectName' dizide bulunmuyor."
 	  create_project $projectName
-	  echo docker tag $sourceImage $newImage
-          echo docker push $newImage
+	  docker tag $sourceImage $newImage
+          docker push $newImage
 	fi
         if [ $? -eq 0 ]; then
              echo Pushed $newImage
@@ -80,13 +80,13 @@ do
         projectName=$(awk -F'/' '{print $2}' <<< "$newImage") 
         projectName=${projectName%%:*}
 	if contains "$projectName" "${my_array[@]}"; then
-          echo docker tag $sourceImage $newImage
-          echo docker push $newImage
+          docker tag $sourceImage $newImage
+          docker push $newImage
         else
           echo "'$projectName' dizide bulunmuyor."
           create_project $projectName
-	  echo docker tag $sourceImage $newImage
-          echo docker push $newImage
+	  docker tag $sourceImage $newImage
+          docker push $newImage
         fi
         if [ $? -eq 0 ]; then
              echo Pushed $newImage
