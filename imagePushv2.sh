@@ -61,37 +61,37 @@ do
         newImage=$(echo $sourceImage | sed -e "s/$firstString/$registry/g")
         projectName=$(awk -F'/' '{print $2}' <<< "$newImage") 
         projectName=${projectName%%:*}
-	if contains "$projectName" "${my_array[@]}"; then
-	  echo docker tag $sourceImage $newImage
-          echo docker push $newImage
-	else
-	  echo "'$projectName' dizide bulunmuyor."
-	  create_project $projectName
-	  echo docker tag $sourceImage $newImage
-          echo docker push $newImage
-	fi
+	      if contains "$projectName" "${my_array[@]}"; then
+	          docker tag $sourceImage $newImage
+            docker push $newImage
+	      else
+	          echo "'$projectName' dizide bulunmuyor."
+	          create_project $projectName
+	          docker tag $sourceImage $newImage
+            docker push $newImage
+	      fi
         if [ $? -eq 0 ]; then
-             echo Pushed $newImage
+            echo Pushed $newImage
         else
-             echo Not Pushed $newImage
+            echo Not Pushed $newImage
         fi
     else
         newImage=$registry"/"$sourceImage
         projectName=$(awk -F'/' '{print $2}' <<< "$newImage") 
         projectName=${projectName%%:*}
-	if contains "$projectName" "${my_array[@]}"; then
-          echo docker tag $sourceImage $newImage
-          echo docker push $newImage
+	      if contains "$projectName" "${my_array[@]}"; then
+            docker tag $sourceImage $newImage
+            docker push $newImage
         else
-          echo "'$projectName' dizide bulunmuyor."
-          create_project $projectName
-	  echo docker tag $sourceImage $newImage
-          echo docker push $newImage
+            echo "'$projectName' dizide bulunmuyor."
+            create_project $projectName
+	          docker tag $sourceImage $newImage
+            docker push $newImage
         fi
         if [ $? -eq 0 ]; then
-             echo Pushed $newImage
+            echo Pushed $newImage
         else
-             echo Not Pushed $newImage
+            echo Not Pushed $newImage
         fi
     fi
 done < "$images"
